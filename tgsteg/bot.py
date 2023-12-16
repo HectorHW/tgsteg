@@ -2,6 +2,7 @@ import asyncio
 import io
 import logging
 from typing import cast
+import typing
 import pydantic_settings
 from aiogram import Dispatcher, Bot
 from aiogram.filters import CommandStart
@@ -42,6 +43,16 @@ def bytes_to_bytes(value: io.BytesIO) -> bytes:
     return value.read()
 
 
+def decode(image: io.BytesIO) -> typing.Optional[str]:
+    try:
+        image.seek(0)
+        actual_image = image_transformation.extract_image(image)
+        return image_transformation.unbake_string(actual_image)
+    except:
+        logger.error("image failed verification after baking")
+        return None
+
+
 @dp.message(Filter.photo.as_("image_variants"), Filter.caption.as_("caption"))
 async def bake_image(
     message: Message, bot: Bot, image_variants: list[PhotoSize], caption: str
@@ -58,6 +69,13 @@ async def bake_image(
         return
 
     compressed = image_transformation.compress_image(produced)
+
+    if decode(compressed) != caption:
+        await message.reply(
+            "failed to decode after encode, possible reason: image is too small/big"
+        )
+        return
+
     uploaded = BufferedInputFile(
         bytes_to_bytes(compressed), filename=f"{message.message_id}.jpg"
     )
