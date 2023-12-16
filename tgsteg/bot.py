@@ -5,17 +5,19 @@ from typing import cast
 import typing
 import pydantic_settings
 from aiogram import Dispatcher, Bot
-from aiogram.filters import CommandStart
+from aiogram.filters import CommandStart, CommandObject, Command
 from aiogram.types import Message, PhotoSize, BufferedInputFile
 from aiogram import F as Filter
 
-from tgsteg import image_transformation
+from tgsteg import image_transformation, data_encoding
+from tgsteg.default_strings import DefaultStrings, SqliteDefaultStringsImpl
 
 logger = logging.getLogger(__name__)
 
 
 class Settings(pydantic_settings.BaseSettings):
     token: str
+    database: str = "data.sqlite"
     log_level: str = "INFO"
 
     model_config = pydantic_settings.SettingsConfigDict(
@@ -53,6 +55,39 @@ def decode(image: io.BytesIO) -> typing.Optional[str]:
         return None
 
 
+@dp.message(Command("default"))
+async def set_default(
+    message: Message, command: CommandObject, bot: Bot, storage: DefaultStrings
+) -> None:
+    if message.from_user is None:
+        return
+    if not command.args:
+        existing_value = await storage.get_value(str(message.from_user.id))
+        if existing_value:
+            await message.reply(f"your default value is {existing_value}")
+            return
+
+        await message.reply(
+            "no default value set, use `/default value` to set it to value"
+        )
+        return
+
+    try:
+        encoded_value = data_encoding.encode_string(command.args)
+    except ValueError:
+        await message.reply(
+            f"provided message contains unsupported symbols. Supported are\n\n{data_encoding.ALPHABET}"
+        )
+        return
+
+    if len(encoded_value) > image_transformation.DATA_LIMIT:
+        await message.reply("sorry, cannot store message this big")
+        return
+
+    await storage.update_value(str(message.from_user.id), command.args)
+    await message.reply(f"updated stored data to `{command.args}`")
+
+
 @dp.message(Filter.photo.as_("image_variants"), Filter.caption.as_("caption"))
 async def bake_image(
     message: Message, bot: Bot, image_variants: list[PhotoSize], caption: str
@@ -61,25 +96,28 @@ async def bake_image(
         "got bake command from %s", message.chat.username or message.chat.full_name
     )
     file = await download_image(bot, image_variants)
-    actual_image = image_transformation.extract_image(file)
+
     try:
-        produced = image_transformation.bake_string_v2(actual_image, caption)
+        result = bake_and_verify(file, caption)
     except ValueError as e:
         await message.reply(f"error: {e.args[0]}")
         return
 
-    compressed = image_transformation.compress_image(produced)
+    uploaded = BufferedInputFile(result, filename=f"{message.message_id}.jpg")
+    await message.reply_photo(uploaded)
 
+
+def bake_and_verify(file: io.BytesIO, caption: str) -> bytes:
+    file.seek(0)
+    actual_image = image_transformation.extract_image(file)
+    produced = image_transformation.bake_string_v2(actual_image, caption)
+    compressed = image_transformation.compress_image(produced)
     if decode(compressed) != caption:
-        await message.reply(
+        raise ValueError(
             "failed to decode after encode, possible reason: image is too small/big"
         )
-        return
 
-    uploaded = BufferedInputFile(
-        bytes_to_bytes(compressed), filename=f"{message.message_id}.jpg"
-    )
-    await message.reply_photo(uploaded)
+    return bytes_to_bytes(compressed)
 
 
 async def download_image(bot: Bot, image_variants: list[PhotoSize]) -> io.BytesIO:
@@ -88,8 +126,19 @@ async def download_image(bot: Bot, image_variants: list[PhotoSize]) -> io.BytesI
     return cast(io.BytesIO, await bot.download_file(file.file_path))
 
 
+AUTOADD_TO_EMPTY_MESSAGE = """
+Incorrect magic. Most likely, image contains no embedded data.
+
+If you want, I can add preconfigured string to image without data. See `/default` command.
+"""
+
+
 @dp.message(Filter.photo.as_("image_variants"))
-async def unbake(message: Message, bot: Bot, image_variants: list[PhotoSize]) -> None:
+async def unbake(
+    message: Message, bot: Bot, image_variants: list[PhotoSize], storage: DefaultStrings
+) -> None:
+    if message.from_user is None:
+        return
     logger.info(
         "got unbake command from %s", message.chat.username or message.chat.full_name
     )
@@ -98,10 +147,16 @@ async def unbake(message: Message, bot: Bot, image_variants: list[PhotoSize]) ->
     try:
         embedded = image_transformation.unbake_string(actual_image)
     except image_transformation.IncorrectMagic:
-        await message.reply(
-            "incorrect magic. Most likely, image contains no embedded data"
-        )
+        default = await storage.get_value(str(message.from_user.id))
+        if default is None:
+            await message.reply(AUTOADD_TO_EMPTY_MESSAGE)
+            return
+
+        data = bake_and_verify(file, default)
+        uploaded = BufferedInputFile(data, filename=f"{message.message_id}.jpg")
+        await message.reply_photo(uploaded)
         return
+
     except ValueError as e:
         await message.reply(f"error: {e.args[0]}")
         return
@@ -112,7 +167,8 @@ async def unbake(message: Message, bot: Bot, image_variants: list[PhotoSize]) ->
 async def main(settings: Settings) -> None:
     logging.basicConfig(level=settings.log_level)
     bot = Bot(settings.token)
-    await dp.start_polling(bot)
+    storage = await SqliteDefaultStringsImpl.file(settings.database)
+    await dp.start_polling(bot, storage=storage)
 
 
 def entrypoint() -> None:

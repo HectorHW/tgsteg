@@ -12,11 +12,14 @@ pydantic = "^2.5.2"
 pydantic-settings = "^2.1.0"
 aiogram = "^3.2.0"
 pillow = "^10.1.0"
+aiosqlite = "^0.19.0"
+sqlalchemy = {extras = ["asyncio"], version = "^2.0.23"}
 
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.1.8"
 mypy = "^1.7.1"
+types-pillow = "^10.1.0.2"
 
 [tool.poetry.scripts]
 bot = "tgsteg.bot:entrypoint"

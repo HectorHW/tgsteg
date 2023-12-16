@@ -20,6 +20,7 @@ def compress_image(data: Image.Image) -> io.BytesIO:
 MAGIC = [True, False, False, True, False, True]
 MAGIC_V2 = [True, False, False, False, True, False]
 LEN_PREFIX = 6
+DATA_LIMIT = 2**LEN_PREFIX - 1
 
 
 class IncorrectMagic(ValueError):
@@ -32,7 +33,7 @@ def bake(
     magic: list[bool],
     pixel_strategy: typing.Type[PixelEnumerator],
 ) -> Image.Image:
-    if len(data) > 2**LEN_PREFIX - 1:
+    if len(data) > DATA_LIMIT:
         raise ValueError(f"data is too big for length prefix of {LEN_PREFIX}")
 
     bits = encode_int(len(data), LEN_PREFIX) + data
