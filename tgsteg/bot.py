@@ -73,7 +73,7 @@ async def set_default(
         return
 
     try:
-        encoded_value = data_encoding.encode_string(command.args)
+        encoded_value = data_encoding.pack_string(command.args)
     except ValueError:
         await message.reply(
             f"provided message contains unsupported symbols. Supported are\n\n{data_encoding.ALPHABET}"
@@ -146,7 +146,7 @@ async def unbake(
     actual_image = image_transformation.extract_image(file)
     try:
         embedded = image_transformation.unbake_string(actual_image)
-    except ValueError:
+    except data_encoding.StringMagicMismatch:
         default = await storage.get_value(str(message.from_user.id))
         if default is None:
             await message.reply(AUTOADD_TO_EMPTY_MESSAGE)
@@ -158,6 +158,9 @@ async def unbake(
             uploaded,
             caption="failed to find existing message, encoded with your default value",
         )
+        return
+    except ValueError as e:
+        await message.reply(f"error: {e.args[0]}")
         return
 
     await message.reply(f"decoded: {embedded}")

@@ -3,7 +3,12 @@ import typing
 from PIL import Image
 import itertools
 
-from tgsteg.data_encoding import decode_string, encode_string
+from tgsteg.data_encoding import (
+    UnencodedBits,
+    EncodedBits,
+    string_from_bits,
+    string_to_bits,
+)
 from tgsteg.pixel_enumeration import PixelEnumerator, Edges
 from tgsteg import data_encoding
 
@@ -20,7 +25,7 @@ def compress_image(data: Image.Image) -> io.BytesIO:
 
 def bake(
     image: Image.Image,
-    data: list[bool],
+    data: UnencodedBits,
     pixel_strategy: typing.Type[PixelEnumerator],
 ) -> Image.Image:
     if len(data) > data_encoding.DATA_LIMIT:
@@ -47,7 +52,7 @@ def bake(
 def unbake(
     image: Image.Image,
     pixel_strategy: typing.Type[PixelEnumerator],
-) -> list[bool]:
+) -> UnencodedBits:
     pixels = image.load()
 
     strategy = pixel_strategy(image.size)
@@ -57,7 +62,7 @@ def unbake(
         for position in itertools.islice(strategy, data_encoding.TOTAL_BITS)
     ]
 
-    return list(data_encoding.unpack_bits(bits))
+    return data_encoding.unpack_bits(EncodedBits(bits))
 
 
 def transmute_pixel(pixel: tuple[int, int, int]) -> bool:
@@ -65,13 +70,13 @@ def transmute_pixel(pixel: tuple[int, int, int]) -> bool:
 
 
 def bake_string(image: Image.Image, value: str) -> Image.Image:
-    data = encode_string(value)
+    data = string_to_bits(value)
     return bake(image, data, Edges)
 
 
 def unbake_string(image: Image.Image) -> str:
     bits = unbake(image, Edges)
-    return decode_string(bits)
+    return string_from_bits(bits)
 
 
 if __name__ == "__main__":

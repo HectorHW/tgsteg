@@ -5,7 +5,10 @@ import math
 import typing
 import bchlib  # type: ignore[import-not-found]
 
-ALPHABET = string.ascii_lowercase + string.digits + "-" + "_" + "@" + ":"
+UnencodedBits = typing.NewType("UnencodedBits", Sequence[bool])
+EncodedBits = typing.NewType("EncodedBits", Sequence[bool])
+
+ALPHABET: str = string.ascii_lowercase + string.digits + "-" + "_" + "@" + ":"
 
 BITS_REQUIRED = math.ceil(math.log2(len(ALPHABET)))
 
@@ -27,15 +30,27 @@ def string_to_packed_numbers(value: str) -> list[int]:
     return [ALPHABET.index(letter) for letter in value]
 
 
-def encode_string(data: str) -> list[bool]:
+class StringMagicMismatch(ValueError):
+    pass
+
+
+MAGIC = [True, False, False, True, False, True]
+
+
+def string_to_bits(data: str, magic: list[bool] = MAGIC) -> UnencodedBits:
     result = []
     for digit in string_to_packed_numbers(data):
         result += encode_int(digit)
 
-    return result
+    return UnencodedBits(list(magic) + result)
 
 
-def decode_string(data: Sequence[bool]) -> str:
+def string_from_bits(data: UnencodedBits, magic: list[bool] = MAGIC) -> str:
+    if len(data) < len(magic) or data[: len(magic)] != magic:
+        raise StringMagicMismatch("got magic mismatch while decoding")
+
+    data = UnencodedBits(data[len(magic) :])
+
     if len(data) % BITS_REQUIRED != 0:
         raise ValueError("incorrect amount of data passed")
 
@@ -144,25 +159,25 @@ class BCHEncoded:
         return list(data)
 
 
-def pack_bits(data: Sequence[bool]) -> Sequence[bool]:
+def pack_bits(data: UnencodedBits) -> EncodedBits:
     length_prefixed = LengthPrefixedBits.encode(data)
     lp_bytes = bits_to_bytes(length_prefixed.data)
     bytes_with_redundancy = BCHEncoded.encode(lp_bytes)
-    return bytes_to_bits(bytes_with_redundancy.data)
+    return EncodedBits(bytes_to_bits(bytes_with_redundancy.data))
 
 
-def unpack_bits(code: Sequence[bool]) -> Sequence[bool]:
+def unpack_bits(code: EncodedBits) -> UnencodedBits:
     redundant_bytes = bits_to_bytes(code)
     decoded_bytes = BCHEncoded(redundant_bytes).decode()
     bits = bytes_to_bits(decoded_bytes)
-    return LengthPrefixedBits(bits).decode()
+    return UnencodedBits(LengthPrefixedBits(bits).decode())
 
 
-def pack_string(value: str) -> Sequence[bool]:
-    encoded = encode_string(value)
+def pack_string(value: str) -> EncodedBits:
+    encoded = string_to_bits(value, MAGIC)
     return pack_bits(encoded)
 
 
-def unpack_string(bits: Sequence[bool]) -> str:
+def unpack_string(bits: EncodedBits) -> str:
     unpacked_and_fixed = unpack_bits(bits)
-    return decode_string(unpacked_and_fixed)
+    return string_from_bits(unpacked_and_fixed, MAGIC)

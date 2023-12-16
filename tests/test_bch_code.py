@@ -30,9 +30,11 @@ def original_text() -> str:
 
 
 @pytest.fixture
-def packed_bits(original_text: str) -> Sequence[bool]:
+def packed_bits(original_text: str) -> data_encoding.EncodedBits:
     return data_encoding.pack_string(original_text)
 
 
-def test_bits_are_unpacked(original_text: str, packed_bits: Sequence[bool]) -> None:
+def test_bits_are_unpacked(
+    original_text: str, packed_bits: data_encoding.EncodedBits
+) -> None:
     assert data_encoding.unpack_string(packed_bits) == original_text
