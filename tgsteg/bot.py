@@ -72,20 +72,27 @@ async def set_default(
         )
         return
 
-    try:
-        encoded_value = data_encoding.pack_string(command.args)
-    except ValueError:
-        await message.reply(
-            f"provided message contains unsupported symbols. Supported are\n\n{data_encoding.ALPHABET}"
-        )
-        return
-
-    if len(encoded_value) > data_encoding.CONTAINER_SIZE:
-        await message.reply("sorry, cannot store message this big")
+    if not await verify_caption(message, command.args):
         return
 
     await storage.update_value(str(message.from_user.id), command.args)
     await message.reply(f"updated stored data to `{command.args}`")
+
+
+async def verify_caption(message: Message, caption: str) -> bool:
+    try:
+        encoded_value = data_encoding.pack_string(caption)
+    except ValueError:
+        await message.reply(
+            f"provided caption contains unsupported symbols. Supported are\n\n{data_encoding.ALPHABET}"
+        )
+        return False
+
+    if len(encoded_value) > data_encoding.CONTAINER_SIZE:
+        await message.reply("sorry, cannot store message this big")
+        return False
+
+    return True
 
 
 @dp.message(Filter.photo.as_("image_variants"), Filter.caption.as_("caption"))
@@ -95,6 +102,9 @@ async def bake_image(
     logger.info(
         "got bake command from %s", message.chat.username or message.chat.full_name
     )
+    if not await verify_caption(message, caption):
+        return
+
     file = await download_image(bot, image_variants)
 
     try:
