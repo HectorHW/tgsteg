@@ -1,15 +1,10 @@
 import abc
 import collections.abc
-import typing
 
 
 class PixelEnumerator(collections.abc.Iterator[tuple[int, int]]):
     @abc.abstractmethod
     def __init__(self, image_size: tuple[int, int]) -> None:
-        ...
-
-    @abc.abstractmethod
-    def consume_magic(self, magic_size: int) -> typing.Self:
         ...
 
     @abc.abstractmethod
@@ -21,10 +16,6 @@ class TopRow(PixelEnumerator):
     def __init__(self, image_size: tuple[int, int]) -> None:
         self.row_length = image_size[0]
         self.current = 0
-
-    def consume_magic(self, magic_size: int) -> typing.Self:
-        self.current += magic_size
-        return self
 
     def __next__(self) -> tuple[int, int]:
         if self.current == self.row_length:
@@ -42,10 +33,6 @@ class Edges(PixelEnumerator):
         self.bottom_row = image_size[1] - 1
 
         self.offsets = [0] * 4
-
-    def consume_magic(self, magic_size: int) -> typing.Self:
-        self.offsets[0] += magic_size
-        return self
 
     def __next__(self) -> tuple[int, int]:
         min_idx, min_value = min(enumerate(self.offsets), key=lambda item: item[1])

@@ -1,3 +1,5 @@
 .env
 *.pyc
 *.jpg
+data.sqlite
+.vscode

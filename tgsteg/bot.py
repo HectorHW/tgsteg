@@ -80,7 +80,7 @@ async def set_default(
         )
         return
 
-    if len(encoded_value) > image_transformation.DATA_LIMIT:
+    if len(encoded_value) > data_encoding.CONTAINER_SIZE:
         await message.reply("sorry, cannot store message this big")
         return
 
@@ -110,7 +110,7 @@ async def bake_image(
 def bake_and_verify(file: io.BytesIO, caption: str) -> bytes:
     file.seek(0)
     actual_image = image_transformation.extract_image(file)
-    produced = image_transformation.bake_string_v2(actual_image, caption)
+    produced = image_transformation.bake_string(actual_image, caption)
     compressed = image_transformation.compress_image(produced)
     if decode(compressed) != caption:
         raise ValueError(
@@ -146,7 +146,7 @@ async def unbake(
     actual_image = image_transformation.extract_image(file)
     try:
         embedded = image_transformation.unbake_string(actual_image)
-    except image_transformation.IncorrectMagic:
+    except ValueError:
         default = await storage.get_value(str(message.from_user.id))
         if default is None:
             await message.reply(AUTOADD_TO_EMPTY_MESSAGE)
@@ -155,10 +155,6 @@ async def unbake(
         data = bake_and_verify(file, default)
         uploaded = BufferedInputFile(data, filename=f"{message.message_id}.jpg")
         await message.reply_photo(uploaded)
-        return
-
-    except ValueError as e:
-        await message.reply(f"error: {e.args[0]}")
         return
 
     await message.reply(f"decoded: {embedded}")

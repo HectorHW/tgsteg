@@ -194,6 +194,74 @@ tests = ["attrs[tests-no-zope]", "zope-interface"]
 tests-no-zope = ["cloudpickle", "hypothesis", "mypy (>=1.1.1)", "pympler", "pytest (>=4.3.0)", "pytest-mypy-plugins", "pytest-xdist[psutil]"]
 
 [[package]]
+name = "bchlib"
+version = "1.0.0"
+description = "A python wrapper module for the Linux kernel BCH library."
+optional = false
+python-versions = ">=3.6.0"
+files = [
+    {file = "bchlib-1.0.0-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:234b1a60c3b7823d9b27d69ef67c83d5eefd0548629e1c52709debda87e4f8c8"},
+    {file = "bchlib-1.0.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:eaa72752e9f346e075907ce6d20dd3299805d26ddc76519e54ac22c2bcbf0cb3"},
+    {file = "bchlib-1.0.0-cp310-cp310-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:5a3804e7ce4579eed7edf2ee025635f226c649b33fb2625c2d0819e8c3eb19c0"},
+    {file = "bchlib-1.0.0-cp310-cp310-musllinux_1_1_i686.whl", hash = "sha256:459dd034cd65ca28a2c07777986f678a46cb8ba5ee39914214676b1d607db322"},
+    {file = "bchlib-1.0.0-cp310-cp310-musllinux_1_1_x86_64.whl", hash = "sha256:3caf4b66cbd9fb5d7eb30fd33f3d459ee8e986bcc3f5b0b03b06604b72bcc93d"},
+    {file = "bchlib-1.0.0-cp310-cp310-win32.whl", hash = "sha256:13090e40d1d9da6a5298cb4c4af36af4bd7741f04a748bb6f952954cef67232e"},
+    {file = "bchlib-1.0.0-cp310-cp310-win_amd64.whl", hash = "sha256:773f51ada5001b30a0d6303065a3823046cf0b865a1e778aa9871f3ef2053dfa"},
+    {file = "bchlib-1.0.0-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:138a9f3145113024fea12a482a357b8bd07678365b4250f13a048d5e6175a7f1"},
+    {file = "bchlib-1.0.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:3e671998acaafa9540233789dd97ddb22e593828142b51d4d63447e874b58ddf"},
+    {file = "bchlib-1.0.0-cp311-cp311-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:21b8974bebeb2d05866311e846a6902388e6f71c4987974bef3471b4cee2d7f4"},
+    {file = "bchlib-1.0.0-cp311-cp311-musllinux_1_1_i686.whl", hash = "sha256:5989a81f67a1c2832c6dcda026a88c042e693dca3da1eaa7e1717d28aaa416f0"},
+    {file = "bchlib-1.0.0-cp311-cp311-musllinux_1_1_x86_64.whl", hash = "sha256:67f0088ae3b9191f1b3da862972095c97050d14e9b18274ac5c27d23acda17d0"},
+    {file = "bchlib-1.0.0-cp311-cp311-win32.whl", hash = "sha256:ab7d949e4e7f18a472c07c04b65d9314bae8acbace1c5215aee470c10432dfed"},
+    {file = "bchlib-1.0.0-cp311-cp311-win_amd64.whl", hash = "sha256:37ab525065c6af2228ab3336efedbbc41b6507547f1298f939f99060ac7b0559"},
+    {file = "bchlib-1.0.0-cp36-cp36m-macosx_10_9_x86_64.whl", hash = "sha256:3947bd13ea5c4971beb3f1d935191cac1c6b5e8b5cf11250cec7b376c87c1db9"},
+    {file = "bchlib-1.0.0-cp36-cp36m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:2071e45a639f7f601f59b96a3292bca292b0644ade5cdc954b1c4940989f98eb"},
+    {file = "bchlib-1.0.0-cp36-cp36m-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:172b906c82b7a86507e419a027846472013349865a74222a5b792bc6907539dd"},
+    {file = "bchlib-1.0.0-cp36-cp36m-musllinux_1_1_i686.whl", hash = "sha256:018118b2e3b4d6e635936e3e8355ab92d6c6bc574192b89a9fcd6123e6b73b69"},
+    {file = "bchlib-1.0.0-cp36-cp36m-musllinux_1_1_x86_64.whl", hash = "sha256:09a95c17a56bc27a40932daf4f86c600e81a6fdd7db28e0ba61a555dc575bd07"},
+    {file = "bchlib-1.0.0-cp36-cp36m-win32.whl", hash = "sha256:ff6ce6b297fcfb0121fdd63f80f59d5ef4b2da675ad473e600a18c717c7cd64f"},
+    {file = "bchlib-1.0.0-cp36-cp36m-win_amd64.whl", hash = "sha256:0658b6af0aa6b81b068fdac28ab447b94241432e7730ece1f259394714faedea"},
+    {file = "bchlib-1.0.0-cp37-cp37m-macosx_10_9_x86_64.whl", hash = "sha256:1bbb03c7b3cdd6bc8e7007c15afa80b9e28a467e0b3cb5adaec7476dd90f8d6b"},
+    {file = "bchlib-1.0.0-cp37-cp37m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:f1bf945d7a1a5437957528c49ec5da54f91cb34b0ac5535df685420cc1b077ac"},
+    {file = "bchlib-1.0.0-cp37-cp37m-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:7d79a746d59fd70703622f5a766e2a09173e58a43dc703291447fce89c00b062"},
+    {file = "bchlib-1.0.0-cp37-cp37m-musllinux_1_1_i686.whl", hash = "sha256:287006afab02d8fb68c59293e73814002ff1d1116f19ab1c6a53f54a09baa6de"},
+    {file = "bchlib-1.0.0-cp37-cp37m-musllinux_1_1_x86_64.whl", hash = "sha256:3d71cb61c7301434e897ea6777d8d901124267140b38e553cc5a15a2fb21cefe"},
+    {file = "bchlib-1.0.0-cp37-cp37m-win32.whl", hash = "sha256:65e4f221d8693b395ab73f2b2855af29b78937dd49c71b963fbb826dd533b526"},
+    {file = "bchlib-1.0.0-cp37-cp37m-win_amd64.whl", hash = "sha256:de01ee2667c07ccad1ef668e5469a0ec7b57b711d4648970982fa55588a0d811"},
+    {file = "bchlib-1.0.0-cp38-cp38-macosx_10_9_x86_64.whl", hash = "sha256:095d4054664e8f23365e47c22eb3d97228fa58c6ac762a196d3fbdfc3deecd62"},
+    {file = "bchlib-1.0.0-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:bfc2ff4de3955c3a184b9ded777d86212b0bf2ae680b255479f90c1c22ef00f9"},
+    {file = "bchlib-1.0.0-cp38-cp38-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:b20d1fbb95c07b89cd960f52b3d7348dc3b2a248065be81311308cacaa8561d3"},
+    {file = "bchlib-1.0.0-cp38-cp38-musllinux_1_1_i686.whl", hash = "sha256:58969d6e30a197709c756a5b806178d5896bb80cbe9b1d0cf15c5d78fdd5a019"},
+    {file = "bchlib-1.0.0-cp38-cp38-musllinux_1_1_x86_64.whl", hash = "sha256:1e756efdb18e1736f0473d5c1d28841207c4b534ceb4123fbf19ec1d68e2218e"},
+    {file = "bchlib-1.0.0-cp38-cp38-win32.whl", hash = "sha256:ab6a100ae6d368a66d3e42f1138fb1173daa627019b94186c9991219ea33fd03"},
+    {file = "bchlib-1.0.0-cp38-cp38-win_amd64.whl", hash = "sha256:3cac9c31e89bdb5f6a0d6dc77599cd99e436d76ddc16790b918a2661e7d63d06"},
+    {file = "bchlib-1.0.0-cp39-cp39-macosx_10_9_x86_64.whl", hash = "sha256:7d3664980941462b1c280f650924462892bd3b5795c9ffb1bc697e65dc357847"},
+    {file = "bchlib-1.0.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:147421566b05bb91fd242060fa926865a7e119d5c11d727ba755b14bc4662be2"},
+    {file = "bchlib-1.0.0-cp39-cp39-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:874c2f66d8ddc449d5bab3a6023c8dfc48831fdc96ff205ba351abbe6807f047"},
+    {file = "bchlib-1.0.0-cp39-cp39-musllinux_1_1_i686.whl", hash = "sha256:80ebbcc0b79092968c3c35962923210105722bd32df916747c9edf3c21d201e6"},
+    {file = "bchlib-1.0.0-cp39-cp39-musllinux_1_1_x86_64.whl", hash = "sha256:b3fb16be53ee55258610ccdc0dcfba1b1da732acb0cf1ab104711763a7c9bca4"},
+    {file = "bchlib-1.0.0-cp39-cp39-win32.whl", hash = "sha256:ec0f9d2b955674f2d8761f4012d28b8ca856009cd18b1a88f7dc0e7cb5c908c2"},
+    {file = "bchlib-1.0.0-cp39-cp39-win_amd64.whl", hash = "sha256:358ff2faa6c0b494743a0b2872fab9a74c5678d3b196acf4a35250051b1b272f"},
+    {file = "bchlib-1.0.0-pp310-pypy310_pp73-macosx_10_9_x86_64.whl", hash = "sha256:bc4b01bea79d65f701ebef0623d1df274f9cc35d9b015f35e0819aed5f525b05"},
+    {file = "bchlib-1.0.0-pp310-pypy310_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:c6530c8dd424428db02c037da89406d0fbb2f0169627626b187cf28f8083c905"},
+    {file = "bchlib-1.0.0-pp310-pypy310_pp73-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:05cdc082bad1386485b583b30a5c75c207d2ba50db32fde86e1ab9ca73c73841"},
+    {file = "bchlib-1.0.0-pp310-pypy310_pp73-win_amd64.whl", hash = "sha256:cb4764b83c7cdeb777e610c4a713064b4f9c303543526119f64c2ab2f5bac80b"},
+    {file = "bchlib-1.0.0-pp37-pypy37_pp73-macosx_10_9_x86_64.whl", hash = "sha256:c123428e2b658e06b08e654a169477e1301d75037dac786f03541ef55c796640"},
+    {file = "bchlib-1.0.0-pp37-pypy37_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:b2e49c7fb83b8a607273110d33b8f70c230afdb9dc34a34416503330170a893c"},
+    {file = "bchlib-1.0.0-pp37-pypy37_pp73-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:315582aa24d1f63fec5643d66662e0bc37aa3d45a8df9af7e7aaf87c543dd5a6"},
+    {file = "bchlib-1.0.0-pp37-pypy37_pp73-win_amd64.whl", hash = "sha256:5a34c8286039ae21d24144ddbe33c23b7a8cd8716e43d9ce97585279c14baf46"},
+    {file = "bchlib-1.0.0-pp38-pypy38_pp73-macosx_10_9_x86_64.whl", hash = "sha256:665737899032980aa3c69d37e812799e2d79eee81d8e8c03d6a36f3b359af798"},
+    {file = "bchlib-1.0.0-pp38-pypy38_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:411202f469f338f7874f15c542dd8c7897495a34f9f089a98d5595514152d678"},
+    {file = "bchlib-1.0.0-pp38-pypy38_pp73-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:48fa4b744aa39b759dc2291418caba854e412d59344f3db3d243fc9cdaad6eed"},
+    {file = "bchlib-1.0.0-pp38-pypy38_pp73-win_amd64.whl", hash = "sha256:0e650ff728b6cd34a78ea4df1be346a4d7bd007718e48da79f16f92da2cef767"},
+    {file = "bchlib-1.0.0-pp39-pypy39_pp73-macosx_10_9_x86_64.whl", hash = "sha256:26ea55f6014d85cf6e3e28fd9d864f4ed9eefc2cc720aec26571b51227a49d34"},
+    {file = "bchlib-1.0.0-pp39-pypy39_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:5ee3503ebb82f7db632df3fcd645fa96e987687e1d97bd4075c2097b2be1b5f3"},
+    {file = "bchlib-1.0.0-pp39-pypy39_pp73-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:9366dfb2fd2b55e0426a34771c2d461279b8339cd1930066c40432574260095e"},
+    {file = "bchlib-1.0.0-pp39-pypy39_pp73-win_amd64.whl", hash = "sha256:e2d0ca155fb157e063892da4aa2888eda357f7954013551294fc67650ca6c7ce"},
+    {file = "bchlib-1.0.0.tar.gz", hash = "sha256:9dcf5908e238e99f7bb1511bc58955cfa5a04dfca293793623c179ebd6af7708"},
+]
+
+[[package]]
 name = "certifi"
 version = "2023.11.17"
 description = "Python package for providing Mozilla's CA Bundle."
@@ -202,6 +270,17 @@ python-versions = ">=3.6"
 files = [
     {file = "certifi-2023.11.17-py3-none-any.whl", hash = "sha256:e036ab49d5b79556f99cfc2d9320b34cfbe5be05c5871b51de9329f0603b0474"},
     {file = "certifi-2023.11.17.tar.gz", hash = "sha256:9b469f3a900bf28dc19b8cfbf8019bf47f7fdd1a65a1d4ffb98fc14166beb4d1"},
+]
+
+[[package]]
+name = "colorama"
+version = "0.4.6"
+description = "Cross-platform colored terminal text."
+optional = false
+python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,!=3.6.*,>=2.7"
+files = [
+    {file = "colorama-0.4.6-py2.py3-none-any.whl", hash = "sha256:4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6"},
+    {file = "colorama-0.4.6.tar.gz", hash = "sha256:08695f5cb7ed6e0531a20572697297273c47b8cae5a63ffc6d6ed5c201be6e44"},
 ]
 
 [[package]]
@@ -391,6 +470,17 @@ python-versions = ">=3.5"
 files = [
     {file = "idna-3.6-py3-none-any.whl", hash = "sha256:c05567e9c24a6b9faaa835c4821bad0590fbb9d5779e7caa6e1cc4978e7eb24f"},
     {file = "idna-3.6.tar.gz", hash = "sha256:9ecdbbd083b06798ae1e86adcbfe8ab1479cf864e4ee30fe4e46a003d12491ca"},
+]
+
+[[package]]
+name = "iniconfig"
+version = "2.0.0"
+description = "brain-dead simple config-ini parsing"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "iniconfig-2.0.0-py3-none-any.whl", hash = "sha256:b6a85871a79d2e3b22d2d1b94ac2824226a63c6b741c88f7ae975f18b6778374"},
+    {file = "iniconfig-2.0.0.tar.gz", hash = "sha256:2d91e135bf72d31a410b17c16da610a82cb55f6b0477d1a902134b24a455b8b3"},
 ]
 
 [[package]]
@@ -646,6 +736,21 @@ docs = ["furo", "olefile", "sphinx (>=2.4)", "sphinx-copybutton", "sphinx-inline
 tests = ["check-manifest", "coverage", "defusedxml", "markdown2", "olefile", "packaging", "pyroma", "pytest", "pytest-cov", "pytest-timeout"]
 
 [[package]]
+name = "pluggy"
+version = "1.3.0"
+description = "plugin and hook calling mechanisms for python"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "pluggy-1.3.0-py3-none-any.whl", hash = "sha256:d89c696a773f8bd377d18e5ecda92b7a3793cbe66c87060a6fb58c7b6e1061f7"},
+    {file = "pluggy-1.3.0.tar.gz", hash = "sha256:cf61ae8f126ac6f7c451172cf30e3e43d3ca77615509771b3a984a0730651e12"},
+]
+
+[package.extras]
+dev = ["pre-commit", "tox"]
+testing = ["pytest", "pytest-benchmark"]
+
+[[package]]
 name = "pydantic"
 version = "2.5.2"
 description = "Data validation using Python type hints"
@@ -795,6 +900,26 @@ files = [
 [package.dependencies]
 pydantic = ">=2.3.0"
 python-dotenv = ">=0.21.0"
+
+[[package]]
+name = "pytest"
+version = "7.4.3"
+description = "pytest: simple powerful testing with Python"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "pytest-7.4.3-py3-none-any.whl", hash = "sha256:0d009c083ea859a71b76adf7c1d502e4bc170b80a8ef002da5806527b9591fac"},
+    {file = "pytest-7.4.3.tar.gz", hash = "sha256:d989d136982de4e3b29dabcc838ad581c64e8ed52c11fbe86ddebd9da0818cd5"},
+]
+
+[package.dependencies]
+colorama = {version = "*", markers = "sys_platform == \"win32\""}
+iniconfig = "*"
+packaging = "*"
+pluggy = ">=0.12,<2.0"
+
+[package.extras]
+testing = ["argcomplete", "attrs (>=19.2.0)", "hypothesis (>=3.56)", "mock", "nose", "pygments (>=2.7.2)", "requests", "setuptools", "xmlschema"]
 
 [[package]]
 name = "python-dotenv"
@@ -1051,4 +1176,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "d5db8887166d9ac054ecc473beb1e10594faa7d9f483f448db30d377d3029aaa"
+content-hash = "1ba407a578709802ae505c396ea4c6e7c576dcba99b02d21c65a92c86891e40a"
