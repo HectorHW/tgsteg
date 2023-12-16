@@ -48,7 +48,7 @@ def decode(image: io.BytesIO) -> typing.Optional[str]:
         image.seek(0)
         actual_image = image_transformation.extract_image(image)
         return image_transformation.unbake_string(actual_image)
-    except:
+    except:  # noqa: E722
         logger.error("image failed verification after baking")
         return None
 
