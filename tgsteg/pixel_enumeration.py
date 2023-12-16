@@ -3,7 +3,7 @@ import collections.abc
 import typing
 
 
-class PixelEnumerator(collections.abc.Iterator):
+class PixelEnumerator(collections.abc.Iterator[tuple[int, int]]):
     @abc.abstractmethod
     def __init__(self, image_size: tuple[int, int]) -> None:
         ...
