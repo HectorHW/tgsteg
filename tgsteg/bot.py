@@ -164,9 +164,11 @@ async def unbake(
 
         data = bake_and_verify(file, default)
         uploaded = BufferedInputFile(data, filename=f"{message.message_id}.jpg")
-        await message.reply_photo(
+        sent = await message.reply_photo(
             uploaded,
-            caption="failed to find existing message, encoded with your default value",
+        )
+        await sent.reply(
+            "failed to find existing message, encoded with your default value"
         )
         return
     except ValueError as e:
