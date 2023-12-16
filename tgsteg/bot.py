@@ -81,14 +81,14 @@ async def set_default(
 
 async def verify_caption(message: Message, caption: str) -> bool:
     try:
-        encoded_value = data_encoding.pack_string(caption)
+        data_encoding.string_to_bits(caption)
     except ValueError:
         await message.reply(
             f"provided caption contains unsupported symbols. Supported are\n\n{data_encoding.ALPHABET}"
         )
         return False
 
-    if len(encoded_value) > data_encoding.CONTAINER_SIZE:
+    if not data_encoding.can_fit(caption):
         await message.reply("sorry, cannot store message this big")
         return False
 

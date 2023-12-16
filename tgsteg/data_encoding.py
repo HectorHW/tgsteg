@@ -45,6 +45,13 @@ def string_to_bits(data: str, magic: list[bool] = MAGIC) -> UnencodedBits:
     return UnencodedBits(list(magic) + result)
 
 
+def can_fit(value: str | UnencodedBits) -> bool:
+    if isinstance(value, str):
+        return can_fit(string_to_bits(value))
+
+    return len(value) < DATA_LIMIT
+
+
 def string_from_bits(data: UnencodedBits, magic: list[bool] = MAGIC) -> str:
     if len(data) < len(magic) or data[: len(magic)] != magic:
         raise StringMagicMismatch("got magic mismatch while decoding")
@@ -66,10 +73,10 @@ def string_from_bits(data: UnencodedBits, magic: list[bool] = MAGIC) -> str:
     return "".join(result)
 
 
-LEN_PREFIX = 6
-DATA_LIMIT = 2**LEN_PREFIX - 1
-MAX_LETTERS = DATA_LIMIT // BITS_REQUIRED
-CONTAINER_SIZE = 8 * math.ceil((LEN_PREFIX + DATA_LIMIT) / 8)
+LEN_PREFIX: int = 6
+DATA_LIMIT: int = 2**LEN_PREFIX - 1
+MAX_LETTERS: int = DATA_LIMIT // BITS_REQUIRED
+CONTAINER_SIZE: int = 8 * math.ceil((LEN_PREFIX + DATA_LIMIT) / 8)
 
 
 @dataclasses.dataclass
