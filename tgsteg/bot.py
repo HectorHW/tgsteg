@@ -52,7 +52,7 @@ async def bake_image(
     file = await download_image(bot, image_variants)
     actual_image = image_transformation.extract_image(file)
     try:
-        produced = image_transformation.bake_string(actual_image, caption)
+        produced = image_transformation.bake_string_v2(actual_image, caption)
     except ValueError as e:
         await message.reply(f"error: {e.args[0]}")
         return
