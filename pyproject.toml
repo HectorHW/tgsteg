@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "tgsteg"
+version = "0.1.0"
+description = ""
+authors = ["Hector Hanshew <29350307+HectorHW@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+environs = "^10.0.0"
+pydantic = "^2.5.2"
+pydantic-settings = "^2.1.0"
+aiogram = "^3.2.0"
+pillow = "^10.1.0"
+
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.1.8"
+mypy = "^1.7.1"
+
+[tool.poetry.scripts]
+bot = "tgsteg.bot:entrypoint"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+include = ["ALL"]
+
+[tool.mypy]
+strict = true
+
