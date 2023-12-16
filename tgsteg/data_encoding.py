@@ -8,7 +8,7 @@ import bchlib  # type: ignore[import-not-found]
 UnencodedBits = typing.NewType("UnencodedBits", Sequence[bool])
 EncodedBits = typing.NewType("EncodedBits", Sequence[bool])
 
-ALPHABET: str = string.ascii_lowercase + string.digits + "-" + "_" + "@" + ":"
+ALPHABET: str = string.ascii_lowercase + string.digits + "-" + "_" + "@" + ":" + " "
 
 BITS_REQUIRED = math.ceil(math.log2(len(ALPHABET)))
 
